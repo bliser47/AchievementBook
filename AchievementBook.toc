@@ -1,0 +1,24 @@
+## Interface: 50400
+## Title: AchievementBook
+## SavedVariables: AchievementBookDB
+## Version: 1.0
+## Author: Blizer
+
+embeds.xml
+
+Core\Debug.lua
+Core\Command.lua
+
+Core\event\EventHandler.lua
+Core\event\EventListener.lua
+Core\event\CallbackHandler.lua
+
+Core\Model.lua
+Core\Core.lua
+
+Core\overrides\Summary.lua
+Core\overrides\Tab.lua
+Core\Override.lua
+
+
+Achievements\Default.lua
