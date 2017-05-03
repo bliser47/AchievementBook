@@ -24,7 +24,7 @@ end
 
 function AchievementBook:ShowObjects(objects)
 	if objects then
-		for index, object in ipairs(objects) do
+		for _, object in ipairs(objects) do
 			object:Show();
 		end
 	end
@@ -32,7 +32,7 @@ end
 
 function AchievementBook:HideObjects(objects)
 	if objects then
-		for index, object in ipairs(objects) do
+		for _, object in ipairs(objects) do
 			object:Hide();
 		end
 	end
@@ -44,9 +44,9 @@ end
 	@return null
 ]]--
 function AchievementBook:InitializeOverride()
-	self:OnBlizzardAchievementUiLoaded(function()
-		local achievementBookTabId = self:AddCustomTab();
-		self:OverrideOnTabClick(achievementBookTabId);
+	self:OnBlizzardAchievementUiLoaded(function(self)
+		self:AddCustomTab();
+		self:OverrideOnTabClick();
 		self:OverrideSummaryUpdate();
 	end);
 end

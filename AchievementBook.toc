@@ -14,6 +14,10 @@ Core\event\EventListener.lua
 Core\event\CallbackHandler.lua
 
 Core\Model.lua
+Core\core\achievement.lua
+Core\core\category.lua
+Core\core\event.lua
+Core\core\criteria.lua
 Core\Core.lua
 
 Core\overrides\Summary.lua

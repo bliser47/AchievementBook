@@ -35,7 +35,7 @@ end
 	@return {Object}
 ]]--
 function AchievementBook:AddListenerOnce(event, callback)
-	return self:AddListener(event, callback, 1);
+	return self:AddListener(event, callback, null, 1);
 end
 
 
@@ -43,14 +43,16 @@ end
 	Adds a callback for an events with possible count
 	@param {String} event
 	@param {Function} callback
+	@param {table} [arg]
 	@param {Number} [count]
 	@return {Object}
 ]]--
-function AchievementBook:AddListener(event, callback, count)
+function AchievementBook:AddListener(event, callback, arg, count)
 	self:Listen(event);
 	local listener = {
 		event = event,
 		callback = callback,
+        arg = arg,
 		count = count
 	};
 	table.insert(self.listeners, listener);
@@ -75,7 +77,7 @@ function AchievementBook:RemoveListener(removeListener, explanation)
 			anyoneElseListening = true;
 		end
 	end
-	for index, removeIndex in ipairs(removeIndexes) do
+	for _, removeIndex in ipairs(removeIndexes) do
 		table.remove(self.listeners, removeIndex);
 	end
 	if not anyoneElseListening then

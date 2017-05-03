@@ -4,8 +4,9 @@ AchievementBook = LibStub("AceAddon-3.0"):GetAddon("AchievementBook");
 
 --[[ 
 	The slash handler
-	@param {String} message
-	@param {Object} editbox
+	@param {string} message
+	@param {table} editbox
+	@returns {undefined}
 --]]
 function AchievementBook:SlashHandler(message, editbox)
 	if message == "show" then

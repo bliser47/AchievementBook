@@ -5,8 +5,8 @@ AchievementBook = LibStub("AceAddon-3.0"):GetAddon("AchievementBook")
 
 --[[
 	Register an event
-	@param {String} event
-	@return null
+	@param {string} event
+	@returns {undefined}
 --]]
 function AchievementBook:RegisterEvent(event)
 	self:Debug("Registering Event: " .. event);
@@ -16,8 +16,8 @@ end
 
 --[[
 	Unregister an event
-	@param {String} event
-	@return null
+	@param {string} event
+	@returns {undefined}
 --]]
 function AchievementBook:UnregisterEvent(event)
 	self:Debug("Unregistering Event: " .. event);
@@ -28,11 +28,11 @@ end
 --[[
 	Return whether we are already
 	listening to an event or not
-	@param {String} addEvent
-	@return {Boolean}
+	@param {string} addEvent
+	@returns {boolean}
 ]]--
 function AchievementBook:AlreadyListening(addEvent)
-	for index, event in ipairs(self.events) do
+	for _, event in ipairs(self.events) do
 		if event == addEvent then
 			return true;
 		end
@@ -44,9 +44,9 @@ end
 --[[
 	Start listening to an event
 	if not already listening to it
-	@param {String} addEvent
-	@return null
-]]
+	@param {string} addEvent
+	@returns {undefined}
+]]--
 function AchievementBook:Listen(addEvent)
 	if not self:AlreadyListening(addEvent) then
 		table.insert(self.events, addEvent);
@@ -57,8 +57,8 @@ end
 
 --[[
 	Stop listening to an event
-	@param {String} removeEvent
-	@return null
+	@param {string} removeEvent
+	@returns {undefined}
 ]]--
 function AchievementBook:StopListening(removeEvent)
 	for index, event in ipairs(self.events) do
@@ -72,12 +72,12 @@ end
 
 --[[
 	When an event happens
-	@param {String} event
-	@param {Object[]} ...
-	@return null
+	@param {string} event
+	@param {list} ...
+	@returns {undefined}
 ]]--
 function AchievementBook:OnEvent(event, ...)
-	for index, listener in ipairs(self.listeners) do
+	for _, listener in ipairs(self.listeners) do
 		if listener.event == event then
 			self:DispatchListener(listener, ...);
 		end
@@ -88,10 +88,10 @@ end
 --[[
 	Initialize the events
 	@return null
---]]
+]]--
 function AchievementBook:InitializeEventHandler()
 	self.events = self.events or {};
-	self.frame:SetScript("OnEvent", function(self, event, ...)
+	self.frame:SetScript("OnEvent", function(_, event, ...)
 		AchievementBook:OnEvent(event, ...);
 	end);
 end

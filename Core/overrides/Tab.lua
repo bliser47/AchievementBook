@@ -2,22 +2,23 @@
 -- Create Date : 3/9/2017 1:05:31 PM
 AchievementBook = LibStub("AceAddon-3.0"):GetAddon("AchievementBook");
 
+
 --[[
 	Add the custom tab for the addon
-	@returns {Number} tabId
+	@returns {number} tabId
 ]]
 function AchievementBook:AddCustomTab()
 	local tabId = 0
     repeat
         tabId = tabId + 1
-    until (not _G["AchievementFrameTab" .. tabId] )
-
-    AchievementBookTab = CreateFrame("Button", "AchievementFrameTab" .. tabId, AchievementFrame, "AchievementFrameTabButtonTemplate")
+    until (not _G["AchievementFrameTab" .. tabId] );
+	self.tabId = tabId;
+    local AchievementBookTab = CreateFrame("Button", "AchievementFrameTab" .. tabId, AchievementFrame, "AchievementFrameTabButtonTemplate")
     AchievementBookTab:SetText("AchievementBook")
     AchievementBookTab:SetPoint("LEFT", "AchievementFrameTab".. tabId-1, "RIGHT", -5, 0)
     AchievementBookTab:SetID(tabId)
-    AchievementBookTab:SetScript("OnClick", function()
-		AchievementFrameBaseTab_OnClick(tabId);
+    AchievementBookTab:SetScript("OnClick", function(self)
+		AchievementFrameBaseTab_OnClick(self:GetID());
 	end);
     PanelTemplates_SetNumTabs(AchievementFrame, tabId)
     AchievementBookTab:SetAlpha(1)
@@ -28,14 +29,14 @@ end
 
 --[[
 	Open the AchievementBook tab
-	@param {Number} id
-	@returns null
+	@param {number} id
+	@returns {undefined}
 ]]--
 function AchievementBook:OpenTab(id)
 	PanelTemplates_Tab_OnClick(_G["AchievementFrameTab"..id], AchievementFrame);
 	local isSummary = false
 	AchievementFrameHeaderTitle:SetText("AchievementBook");
-	achievementFunctions = AchievementBook:GetFunctions();
+	local achievementFunctions = AchievementBook:GetFunctions();
 	AchievementFrameCategories_GetCategoryList(ACHIEVEMENTUI_CATEGORIES);
 	AchievementFrameHeaderPoints:SetText(0);
 	AchievementFrameWaterMark:SetTexture("")
@@ -54,8 +55,8 @@ end
 
 --[[
 	Switch from the AchievementBook tab to a Blizzard one
-	@param {Number} id
-	@returns null
+	@param {number} id
+	@returns {undefined}
 ]]--
 function AchievementBook:OpenOldTab(id)
 	AchievementFrameHeaderTitle:SetText(ACHIEVEMENT_TITLE);
@@ -67,13 +68,13 @@ end
 
 --[[
 	Override the BaseTab_OnClick function on the Blizzard UI
-	@param {Number} achievementBookTabId
-	@returns null;
+	@param {number} achievementBookTabId
+	@returns {undefined}
 ]]--
-function AchievementBook:OverrideOnTabClick(achievementBookTabId)
+function AchievementBook:OverrideOnTabClick()
 	AchievementBook._oldAchievementFrameBaseTab_OnClick = AchievementFrameBaseTab_OnClick;
-	AchievementFrameBaseTab_OnClick = function(id)
-		if id == achievementBookTabId then
+	_G["AchievementFrameBaseTab_OnClick"] = function(id)
+		if id == AchievementBook.tabId then
 			AchievementBook:OpenTab(id);
 		else
 	        AchievementBook:OpenOldTab(id);
