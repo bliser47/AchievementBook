@@ -30,10 +30,31 @@ end
 
 
 --[[
+	Delete the criteria
+    @param {table} criteria
+    @returns {undefined}
+ ]]--
+function AchievementBook:DeleteCriteria(criteria)
+	self.db.char.criterias[criteria.key] = nil;
+end
+
+
+
+--[[
 	Save the achievement
 	@param {table} achievement
 	@returns {undefined]
  ]]--
 function AchievementBook:SaveAchievement(achievement)
-	self.db.achievements[achievement.key] = time();
+	self.db.char.achievements[achievement.key] = time();
+end
+
+
+--[[
+	Delete the achievement
+	@param {table} achievement
+	@returns {undefined]
+ ]]--
+function AchievementBook:DeleteAchievement(achievement)
+	self.db.char.achievements[achievement.key] = nil;
 end

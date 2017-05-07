@@ -13,6 +13,8 @@ function AchievementBook:LoadCriteria(criteria)
         for _, event in ipairs(criteria.events) do
             self:LoadEvent(event,criteria);
         end
+    else
+        criteria.complete = true;
     end
 end
 
@@ -24,12 +26,35 @@ end
 ]]--
 function AchievementBook:CompleteCriteria(criteria)
     self:Debug("Completing criteria: " .. criteria.key);
+    criteria.complete = true;
     self:SaveCriteria(criteria);
     if criteria.listeners then
         for _, listener in ipairs(criteria.listeners) do
             self:RemoveListener(listener, "criteria complete: " .. criteria.key );
         end
     end
+    criteria.listeners = {};
     self:OnEvent("ACHIEVEMENT_BOOK_CRITERIA_COMPLETE",criteria);
     self:CheckAchievementComplete(criteria.parent);
+end
+
+
+
+--[[
+	Reset the criteria
+	@param {table} criteria
+	@returns {undefined}
+]]--
+function AchievementBook:ResetCriteria(criteria)
+    self:Debug("Reseting criteria: " .. criteria.key);
+    criteria.complete = false;
+    self:DeleteCriteria(criteria);
+    if criteria.listeners then
+        for _, listener in ipairs(criteria.listeners) do
+            self:RemoveListener(listener, "criteria reset: " .. criteria.key );
+        end
+    end
+    criteria.listeners = {};
+    self:OnEvent("ACHIEVEMENT_BOOK_CRITERIA_RESET",criteria);
+    self:LoadCriteria(criteria);
 end

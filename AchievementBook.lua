@@ -2,6 +2,7 @@ AchievementBook = LibStub("AceAddon-3.0"):NewAddon("AchievementBook", "AceConsol
 
 function AchievementBook:OnEnable()
 	self.frame = AchievementBook_MainFrame;
+	self.debug = true;
 	self:InitializeModel();
 	self:InitializeCommands({"ab","achievementbook"});
 	self:InitializeEventHandler();

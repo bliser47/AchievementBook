@@ -10,10 +10,12 @@ AchievementBook = LibStub("AceAddon-3.0"):GetAddon("AchievementBook");
 --]]
 function AchievementBook:SlashHandler(message, editbox)
 	if message == "show" then
-		AchievementBook:Show();
+		self:Show();
 	elseif message == "hide" then
-		AchievementBook:Hide();
-	end 
+		self:Hide();
+	elseif message == "reset" then
+		self:ResetAchievements();
+	end
 end
 
 --[[ 

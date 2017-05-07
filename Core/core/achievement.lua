@@ -25,10 +25,12 @@ end
 ]]--
 function AchievementBook:LoadAchievement(achievement)
     self:Debug("Loading achievement: " .. achievement.name);
-    if not self.db.char.achievements[achievement.key] then
-        for _, criteria in ipairs(achievement.criterias) do
-            criteria.parent = achievement;
+    for _, criteria in ipairs(achievement.criterias) do
+        criteria.parent = achievement;
+        if not self.db.char.achievements[achievement.key] then
             self:LoadCriteria(criteria);
+        else
+           criteria.complete = true;
         end
     end
 end
@@ -48,7 +50,7 @@ end
 	@param {table} achievement
 	@returns {undefined}
 ]]--
-function AchievementBook:CheckAchievement(achievement)
+function AchievementBook:CheckAchievementComplete(achievement)
     local completeCriterias = 0;
     local totalCriterias = 0;
     for _, criteria in ipairs(achievement.criterias) do
@@ -74,6 +76,30 @@ function AchievementBook:CompleteAchievement(achievement,onLoad)
     if achievement.previous then
         self:CompleteAchievement(GetPreviousAchievement(achievement.id,nil,onLoad));
     end
+
+    achievement.complete = true;
+
     self:SaveAchievement(achievement);
     self:OnEvent("ACHIEVEMENT_BOOK_ACHIEVEMENT_COMPLETE",achievement);
+    self:Debug("Completing achievement: " .. achievement.name);
+end
+
+
+--[[
+    Reset the passed achievements
+    @param {table} achievement
+    @param {boolean} onLoad
+]]--
+function AchievementBook:ResetAchievement(achievement, onLoad)
+    if achievement.next then
+        self:ResetAchievement(GetNextAchievement(achievement.id,nil,onLoad));
+    end
+    achievement.complete = false;
+    self:DeleteAchievement(achievement);
+    self:OnEvent("ACHIEVEMENT_BOOK_ACHIEVEMENT_RESET",achievement);
+    self:Debug("Reseting achievement: " .. achievement.name);
+    for _, criteria in ipairs(achievement.criterias) do
+        self:ResetCriteria(criteria);
+    end
+    self:LoadAchievement(achievement);
 end

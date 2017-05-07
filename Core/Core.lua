@@ -42,3 +42,17 @@ function AchievementBook:InitializeAchievements()
 end
 
 
+--[[
+ 	Reset all achievements
+ 	@returns {undefined}
+]]--
+function AchievementBook:ResetAchievements()
+	self:Debug("Reseting achievements");
+	if self.achievements then
+		for _, achievement in pairs(self.achievements) do
+			self:ResetAchievement(achievement);
+		end
+	end
+end
+
+

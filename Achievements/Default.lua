@@ -23,12 +23,12 @@ AchievementBook:AddAchievement({
 });
 
 AchievementBook:AddAchievement({
-	name = "Default achievement",
+	name = "Default achievement2",
 	points = 10,
 	key = "default2",
 	criterias = {
 		{
-			name = "Test name",
+			name = "Test name2",
 			key = "defaultC2",
 			description = "Test description",
 			events = {"CHAT_MSG_TEXT_EMOTE"},
